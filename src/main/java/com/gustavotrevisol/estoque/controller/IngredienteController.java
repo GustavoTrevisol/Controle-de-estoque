@@ -1,5 +1,8 @@
 package com.gustavotrevisol.estoque.controller;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.gustavotrevisol.estoque.service.IngredienteService;
 import com.gustavotrevisol.estoque.domain.ingrediente.Ingrediente;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -31,8 +36,16 @@ public class IngredienteController {
         
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Ingrediente> getIngredienteById(@PathVariable Long id){
-        return ingredienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        Ingrediente ingrediente = ingredienteService.buscarPorId(id);
+        return ResponseEntity.ok(ingrediente);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIngredienteById(@PathVariable Long id){
+        ingredienteService.deletar(id);
+        return ResponseEntity.noContent().build();
+        
     }
 }
