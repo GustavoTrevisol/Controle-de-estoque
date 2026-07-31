@@ -1,5 +1,6 @@
 package com.gustavotrevisol.estoque.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.gustavotrevisol.estoque.repository.IngredienteRepository;
@@ -36,7 +37,10 @@ public class IngredienteService {
         repository.delete(ingrediente);
     }
 
-
-
+    public void atualizarQuantidade(Long id, BigDecimal quantidade){
+        Ingrediente ingrediente = buscarPorId(id);
+        ingrediente.setQuantidade(quantidade);
+        repository.save(ingrediente);
+    }
     
 }
